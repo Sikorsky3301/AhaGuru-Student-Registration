@@ -131,16 +131,21 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Generate a key using: from cryptography.fernet import Fernet; Fernet.generate_key()
 ENCRYPTION_KEY = 'rcmCTHR9uz0POafc6GmF7HzKQUqN5R31aP67Ia_S3y0='  # Fernet encryption key
 
-# Email configuration
-# For development: Use console backend (emails printed to console)
-# For production: Configure SMTP settings below
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Development
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Production
+# Email configuration - SMTP for sending real emails
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-# SMTP Configuration (uncomment and configure for production)
-# EMAIL_HOST = 'smtp.gmail.com'  # Gmail SMTP server
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'your-email@gmail.com'  # Your email address
-# EMAIL_HOST_PASSWORD = 'your-app-password'  # Your app password
-# DEFAULT_FROM_EMAIL = 'your-email@gmail.com'  # Default sender email
+# Gmail SMTP Configuration
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'hulk9387@gmail.com'  # Your Gmail address (e.g., yourname@gmail.com)
+EMAIL_HOST_PASSWORD = 'gcex xgtp tlvt fgty'  # Your Gmail App Password (see instructions below)
+DEFAULT_FROM_EMAIL = 'hulk9387@gmail.com'  # Your Gmail address (same as EMAIL_HOST_USER)
+
+# Instructions for Gmail App Password:
+# 1. Enable 2-Step Verification on your Google Account
+# 2. Go to: https://myaccount.google.com/apppasswords
+# 3. Generate an App Password for "Mail" and "Other (Custom name)"
+# 4. Enter "Django" as the app name
+# 5. Copy the 16-character password and paste it in EMAIL_HOST_PASSWORD above
+# 6. Fill in your Gmail address in EMAIL_HOST_USER and DEFAULT_FROM_EMAIL
