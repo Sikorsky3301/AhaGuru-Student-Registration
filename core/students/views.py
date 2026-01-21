@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.db import connection
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.conf import settings
 from .forms import StudentRegistrationForm
 from .encryption import encrypt_data, decrypt_data
 
@@ -42,6 +45,7 @@ def register_student(request):
                 request.session['registration_id'] = registration_id
                 request.session['student_email'] = decrypted_email
                 request.session['student_name'] = name
+                request.session['student_class'] = student_class
                 
                 messages.success(request, f'Registration successful! Your Registration ID is: {registration_id}')
                 return redirect('registration_success')
@@ -62,13 +66,39 @@ def registration_success(request):
     registration_id = request.session.get('registration_id')
     student_email = request.session.get('student_email')
     student_name = request.session.get('student_name')
+    student_class = request.session.get('student_class', '')
     
     if not registration_id:
         messages.error(request, 'No registration found.')
         return redirect('register_student')
     
-    # Send confirmation email (will be implemented in next step)
-    # For now, just display success page
+    # Send confirmation email with decrypted email and registration ID
+    try:
+        # Render email template
+        email_html = render_to_string(
+            'students/emails/registration_confirmation.html',
+            {
+                'student_name': student_name,
+                'student_email': student_email,
+                'student_class': student_class,
+                'registration_id': registration_id,
+            }
+        )
+        
+        # Send email
+        send_mail(
+            subject=f'Registration Confirmation - ID: {registration_id}',
+            message=f'Dear {student_name},\n\nYour registration has been completed successfully.\n\nRegistration ID: {registration_id}\n\nThank you!',
+            from_email=getattr(settings, 'DEFAULT_FROM_EMAIL', 'noreply@edtech.com'),
+            recipient_list=[student_email],
+            html_message=email_html,
+            fail_silently=False,
+        )
+        
+        messages.info(request, 'Confirmation email has been sent to your email address.')
+    except Exception as e:
+        # Log error but don't fail the registration
+        messages.warning(request, f'Registration successful, but email could not be sent: {str(e)}')
     
     context = {
         'registration_id': registration_id,
@@ -80,5 +110,6 @@ def registration_success(request):
     request.session.pop('registration_id', None)
     request.session.pop('student_email', None)
     request.session.pop('student_name', None)
+    request.session.pop('student_class', None)
     
     return render(request, 'students/success.html', context)

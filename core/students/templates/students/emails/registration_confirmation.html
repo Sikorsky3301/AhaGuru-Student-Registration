@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .content {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 0 0 10px 10px;
+        }
+        .registration-id {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 5px;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Registration Confirmation</h1>
+    </div>
+    <div class="content">
+        <p>Dear {{ student_name }},</p>
+        
+        <p>Thank you for registering with us! Your registration has been successfully completed.</p>
+        
+        <p><strong>Your Registration Details:</strong></p>
+        <ul>
+            <li><strong>Name:</strong> {{ student_name }}</li>
+            <li><strong>Email:</strong> {{ student_email }}</li>
+            <li><strong>Class:</strong> {{ student_class|default:"Not specified" }}</li>
+        </ul>
+        
+        <div class="registration-id">
+            Registration ID: {{ registration_id }}
+        </div>
+        
+        <p>Please keep this Registration ID for your records. You may need it for future reference.</p>
+        
+        <p>If you have any questions or need assistance, please don't hesitate to contact us.</p>
+        
+        <p>Best regards,<br>
+        <strong>Student Registration Team</strong></p>
+    </div>
+    <div class="footer">
+        <p>This is an automated email. Please do not reply to this message.</p>
+    </div>
+</body>
+</html>
+
