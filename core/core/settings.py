@@ -130,3 +130,17 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Encryption settings for sensitive data
 # Generate a key using: from cryptography.fernet import Fernet; Fernet.generate_key()
 ENCRYPTION_KEY = 'rcmCTHR9uz0POafc6GmF7HzKQUqN5R31aP67Ia_S3y0='  # Fernet encryption key
+
+# Email configuration
+# For development: Use console backend (emails printed to console)
+# For production: Configure SMTP settings below
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Development
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Production
+
+# SMTP Configuration (uncomment and configure for production)
+# EMAIL_HOST = 'smtp.gmail.com'  # Gmail SMTP server
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'your-email@gmail.com'  # Your email address
+# EMAIL_HOST_PASSWORD = 'your-app-password'  # Your app password
+# DEFAULT_FROM_EMAIL = 'your-email@gmail.com'  # Default sender email
