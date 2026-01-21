@@ -48,7 +48,7 @@ def register_student(request):
                 request.session['student_class'] = student_class
                 
                 messages.success(request, f'Registration successful! Your Registration ID is: {registration_id}')
-                return redirect('registration_success')
+                return redirect('students:registration_success')
                 
             except Exception as e:
                 messages.error(request, f'Registration failed: {str(e)}')
@@ -70,9 +70,11 @@ def registration_success(request):
     
     if not registration_id:
         messages.error(request, 'No registration found.')
-        return redirect('register_student')
+        return redirect('students:register_student')
     
     # Send confirmation email with decrypted email and registration ID
+    email_sent = False
+    email_error = None
     try:
         # Render email template
         email_html = render_to_string(
@@ -94,16 +96,20 @@ def registration_success(request):
             html_message=email_html,
             fail_silently=False,
         )
-        
-        messages.info(request, 'Confirmation email has been sent to your email address.')
+        email_sent = True
+        messages.info(request, 'Confirmation email has been sent! Check your console/terminal for the email output.')
     except Exception as e:
         # Log error but don't fail the registration
-        messages.warning(request, f'Registration successful, but email could not be sent: {str(e)}')
+        email_error = str(e)
+        messages.warning(request, f'Registration successful! Note: Email could not be sent. Check console for details.')
+        print(f"Email Error: {email_error}")  # Print to console for debugging
     
     context = {
         'registration_id': registration_id,
         'student_email': student_email,
         'student_name': student_name,
+        'email_sent': email_sent,
+        'email_error': email_error,
     }
     
     # Clear session data

@@ -67,15 +67,25 @@
             </div>
             
             <p class="text-muted">
-                A confirmation email has been sent to:<br>
+                A confirmation email {% if email_sent %}has been sent{% else %}is being sent{% endif %} to:<br>
                 <strong>{{ student_email }}</strong>
             </p>
             
+            {% if email_sent %}
+            <p class="text-info small mt-4">
+                <strong>Note:</strong> In development mode, emails are printed to the console/terminal where Django is running. Check your server console to see the email content.
+            </p>
+            {% elif email_error %}
+            <p class="text-warning small mt-4">
+                <strong>Note:</strong> Email sending encountered an issue. Check the console for details. Your registration is still successful.
+            </p>
+            {% else %}
             <p class="text-muted small mt-4">
                 Please check your email for the confirmation message.
             </p>
+            {% endif %}
             
-            <a href="{% url 'register_student' %}" class="btn btn-primary btn-home">Register Another Student</a>
+            <a href="{% url 'students:register_student' %}" class="btn btn-primary btn-home">Register Another Student</a>
         </div>
     </div>
 
