@@ -126,3 +126,7 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Encryption settings for sensitive data
+# Generate a key using: from cryptography.fernet import Fernet; Fernet.generate_key()
+ENCRYPTION_KEY = 'rcmCTHR9uz0POafc6GmF7HzKQUqN5R31aP67Ia_S3y0='  # Fernet encryption key
