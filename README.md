@@ -521,15 +521,19 @@ python manage.py test students.tests.IntegrationTestCase
 ## 📸 Screenshots
 
 ### Registration Page
+![Registration Form](screenshots/registration-form.png)
 - Modern gradient design
 - Form with icons and validation
 - Responsive layout
+- Real-time error messages
 
 ### Success Page
+![Registration Success](screenshots/registration-success.png)
 - Animated success icon
 - Registration ID display
 - Email confirmation message
 - Professional styling
+- Confetti animation on success
 
 ### Admin Panel
 - Decrypted data view
