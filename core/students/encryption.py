@@ -6,6 +6,7 @@ from cryptography.fernet import Fernet
 from django.conf import settings
 import base64
 import os
+import hashlib
 
 
 def get_encryption_key():
@@ -63,4 +64,25 @@ def decrypt_data(encrypted_data):
         return decrypted.decode('utf-8')
     except Exception as e:
         raise ValueError(f"Decryption failed: {str(e)}")
+
+
+def hash_for_comparison(data):
+    """
+    Create a SHA256 hash of normalized data for duplicate comparison.
+    This allows checking duplicates without decrypting all records.
+    
+    Args:
+        data: String to hash (email or mobile)
+        
+    Returns:
+        str: SHA256 hash in hex format
+    """
+    if not data:
+        return ''
+    
+    # Normalize: lowercase and strip whitespace
+    normalized = str(data).lower().strip()
+    # Create SHA256 hash
+    hash_obj = hashlib.sha256(normalized.encode('utf-8'))
+    return hash_obj.hexdigest()
 

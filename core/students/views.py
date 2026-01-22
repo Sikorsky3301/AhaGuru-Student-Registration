@@ -51,7 +51,15 @@ def register_student(request):
                 return redirect('students:registration_success')
                 
             except Exception as e:
-                messages.error(request, f'Registration failed: {str(e)}')
+                error_message = str(e)
+                # Check if it's a duplicate entry error from database (backup check)
+                if 'Duplicate entry' in error_message or 'UNIQUE constraint' in error_message or '1062' in error_message:
+                    messages.error(
+                        request, 
+                        'This email or mobile number is already registered. Please use different contact information.'
+                    )
+                else:
+                    messages.error(request, f'Registration failed: {error_message}')
                 return render(request, 'students/register.html', {'form': form})
     else:
         form = StudentRegistrationForm()
