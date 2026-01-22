@@ -68,7 +68,8 @@ desktop.ini
 # ============================================
 # Ignore all markdown files except README.md
 *.md
-!README.md
+!README.md 
+!cursor_conversation_file.md
 
 # ============================================
 # Testing & Coverage
