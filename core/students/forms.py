@@ -72,8 +72,14 @@ class StudentRegistrationForm(forms.Form):
                         raise forms.ValidationError(
                             "This mobile number is already registered. Please use a different mobile number."
                         )
-                except Exception:
-                    # Skip if decryption fails (shouldn't happen, but be safe)
+                except forms.ValidationError:
+                    # Re-raise ValidationError (don't catch it)
+                    raise
+                except (ValueError, Exception) as e:
+                    # Only skip if decryption fails (not ValidationError)
+                    import logging
+                    logger = logging.getLogger(__name__)
+                    logger.warning(f"Error decrypting mobile for student {student.id}: {str(e)}")
                     continue
         
         return mobile
@@ -102,8 +108,15 @@ class StudentRegistrationForm(forms.Form):
                         raise forms.ValidationError(
                             "This email address is already registered. Please use a different email address or contact support if you believe this is an error."
                         )
-                except Exception:
-                    # Skip if decryption fails (shouldn't happen, but be safe)
+                except forms.ValidationError:
+                    # Re-raise ValidationError (don't catch it)
+                    raise
+                except (ValueError, Exception) as e:
+                    # Only skip if decryption fails (not ValidationError)
+                    # Log the error for debugging
+                    import logging
+                    logger = logging.getLogger(__name__)
+                    logger.warning(f"Error decrypting email for student {student.id}: {str(e)}")
                     continue
         
         return email.lower().strip() if email else email
@@ -138,7 +151,14 @@ class StudentRegistrationForm(forms.Form):
                             "A registration with this email and mobile number combination already exists. "
                             "Please use different contact information or contact support."
                         )
-                except Exception:
+                except forms.ValidationError:
+                    # Re-raise ValidationError (don't catch it)
+                    raise
+                except (ValueError, Exception) as e:
+                    # Only skip if decryption fails (not ValidationError)
+                    import logging
+                    logger = logging.getLogger(__name__)
+                    logger.warning(f"Error decrypting data for student {student.id}: {str(e)}")
                     continue
         
         return cleaned_data
