@@ -3,50 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Registration</title>
+    <title>Student Registration | EdTech Platform</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
+            justify-content: center;
             padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            overflow-x: hidden;
         }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
         .registration-container {
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            padding: 40px;
-            max-width: 600px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 50px 40px;
+            max-width: 650px;
             width: 100%;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            animation: slideUp 0.6s ease-out;
         }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
         .registration-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            padding-bottom: 25px;
+            border-bottom: 2px solid #f0f0f0;
         }
+        
+        .registration-header .icon-wrapper {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .registration-header .icon-wrapper i {
+            font-size: 40px;
+            color: white;
+        }
+        
         .registration-header h1 {
-            color: #667eea;
+            color: #2d3748;
             font-weight: 700;
+            font-size: 32px;
             margin-bottom: 10px;
+            letter-spacing: -0.5px;
         }
+        
+        .registration-header p {
+            color: #718096;
+            font-size: 16px;
+            margin: 0;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
         .form-label {
             font-weight: 600;
-            color: #333;
-            margin-bottom: 8px;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
+        
+        .form-label i {
+            color: #667eea;
+            font-size: 16px;
+        }
+        
+        .form-control {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px 16px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+        
+        .form-control:focus {
+            border-color: #667eea;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            outline: none;
+        }
+        
+        .form-control::placeholder {
+            color: #a0aec0;
+        }
+        
+        .error-message {
+            color: #e53e3e;
+            font-size: 13px;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .error-message i {
+            font-size: 14px;
+        }
+        
+        .alert {
+            border-radius: 12px;
+            border: none;
+            padding: 16px 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            animation: slideDown 0.4s ease-out;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .alert-danger {
+            background: #fed7d7;
+            color: #c53030;
+        }
+        
+        .alert-success {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+        
         .btn-register {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
-            padding: 12px 30px;
+            padding: 14px 30px;
             font-weight: 600;
+            font-size: 16px;
             width: 100%;
-            margin-top: 20px;
+            margin-top: 10px;
+            border-radius: 10px;
+            color: white;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
+        
+        .btn-register::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-register:hover::before {
+            left: 100%;
+        }
+        
         .btn-register:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-register:active {
+            transform: translateY(0);
+        }
+        
+        .btn-register:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .required-indicator {
+            color: #e53e3e;
+            margin-left: 4px;
+        }
+        
+        .form-note {
+            font-size: 12px;
+            color: #718096;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 576px) {
+            .registration-container {
+                padding: 30px 20px;
+                border-radius: 15px;
+            }
+            
+            .registration-header h1 {
+                font-size: 26px;
+            }
+            
+            .registration-header .icon-wrapper {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .registration-header .icon-wrapper i {
+                font-size: 30px;
+            }
         }
     </style>
 </head>
@@ -54,60 +261,114 @@
     <div class="container">
         <div class="registration-container">
             <div class="registration-header">
+                <div class="icon-wrapper">
+                    <i class="bi bi-person-plus-fill"></i>
+                </div>
                 <h1>Student Registration</h1>
-                <p class="text-muted">Please fill in your details to register</p>
+                <p>Complete your registration in just a few steps</p>
             </div>
 
             {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                        <i class="bi bi-{% if message.tags == 'error' or message.tags == 'danger' %}exclamation-triangle{% else %}check-circle{% endif %}-fill me-2"></i>
                         {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 {% endfor %}
             {% endif %}
 
-            <form method="post" novalidate>
+            <form method="post" novalidate id="registrationForm">
                 {% csrf_token %}
                 
-                <div class="mb-3">
-                    <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}</label>
+                <div class="form-group">
+                    <label for="{{ form.name.id_for_label }}" class="form-label">
+                        <i class="bi bi-person"></i>
+                        {{ form.name.label }}
+                        <span class="required-indicator">*</span>
+                    </label>
                     {{ form.name }}
                     {% if form.name.errors %}
-                        <div class="text-danger small">{{ form.name.errors }}</div>
+                        <div class="error-message">
+                            <i class="bi bi-exclamation-circle"></i>
+                            {{ form.name.errors.0 }}
+                        </div>
                     {% endif %}
                 </div>
 
-                <div class="mb-3">
-                    <label for="{{ form.email.id_for_label }}" class="form-label">{{ form.email.label }}</label>
+                <div class="form-group">
+                    <label for="{{ form.email.id_for_label }}" class="form-label">
+                        <i class="bi bi-envelope"></i>
+                        {{ form.email.label }}
+                        <span class="required-indicator">*</span>
+                    </label>
                     {{ form.email }}
                     {% if form.email.errors %}
-                        <div class="text-danger small">{{ form.email.errors }}</div>
+                        <div class="error-message">
+                            <i class="bi bi-exclamation-circle"></i>
+                            {{ form.email.errors.0 }}
+                        </div>
                     {% endif %}
+                    <div class="form-note">We'll send a confirmation email to this address</div>
                 </div>
 
-                <div class="mb-3">
-                    <label for="{{ form.mobile.id_for_label }}" class="form-label">{{ form.mobile.label }}</label>
+                <div class="form-group">
+                    <label for="{{ form.mobile.id_for_label }}" class="form-label">
+                        <i class="bi bi-phone"></i>
+                        {{ form.mobile.label }}
+                        <span class="required-indicator">*</span>
+                    </label>
                     {{ form.mobile }}
                     {% if form.mobile.errors %}
-                        <div class="text-danger small">{{ form.mobile.errors }}</div>
+                        <div class="error-message">
+                            <i class="bi bi-exclamation-circle"></i>
+                            {{ form.mobile.errors.0 }}
+                        </div>
                     {% endif %}
                 </div>
 
-                <div class="mb-3">
-                    <label for="{{ form.student_class.id_for_label }}" class="form-label">{{ form.student_class.label }}</label>
+                <div class="form-group">
+                    <label for="{{ form.student_class.id_for_label }}" class="form-label">
+                        <i class="bi bi-mortarboard"></i>
+                        {{ form.student_class.label }}
+                    </label>
                     {{ form.student_class }}
                     {% if form.student_class.errors %}
-                        <div class="text-danger small">{{ form.student_class.errors }}</div>
+                        <div class="error-message">
+                            <i class="bi bi-exclamation-circle"></i>
+                            {{ form.student_class.errors.0 }}
+                        </div>
                     {% endif %}
+                    <div class="form-note">Optional: Enter your current class or grade</div>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-register">Register</button>
+                <button type="submit" class="btn btn-register" id="submitBtn">
+                    <i class="bi bi-check-circle me-2"></i>
+                    Complete Registration
+                </button>
             </form>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Form submission loading state
+        const form = document.getElementById('registrationForm');
+        const submitBtn = document.getElementById('submitBtn');
+        
+        form.addEventListener('submit', function() {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing...';
+        });
+        
+        // Auto-dismiss alerts after 5 seconds
+        setTimeout(function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(function(alert) {
+                const bsAlert = new bootstrap.Alert(alert);
+                setTimeout(() => bsAlert.close(), 5000);
+            });
+        }, 5000);
+    </script>
 </body>
 </html>
-
